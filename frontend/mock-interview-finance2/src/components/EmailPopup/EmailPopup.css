@@ -1,0 +1,61 @@
+#emailPopup {
+    background-color: rgb(213, 213, 213);
+    width:450px;
+    height: 150px;
+    box-shadow: 2px 2px 10px rgb(0, 0, 0);
+    border-radius: 5px;
+    padding:10px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    margin-bottom: 100px;
+}
+
+/* #popupOverlay {
+    z-index: 100;
+    display: flex;
+    width:100vw;
+    height:100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.496);
+} */
+
+#emailPopup > #main {
+    display: flex;
+    justify-content: space-between;
+}
+
+#emailPopup > #header, #emailPopup > #footer  {
+    display: flex;
+    justify-content: space-between;
+}
+
+#emailPopup > #header > #title {
+    align-self: center;
+    font-weight: bold;
+}
+
+#emailPopup > #header > #close {
+    cursor: pointer;
+}
+.column > .day {
+font-weight: bold;
+text-align: center;
+}
+.column > .times > .time {
+    background-color: white;
+    padding: 5px;
+    margin: 4px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.column > .times > .time:hover {
+    background-color: rgb(164, 164, 164);
+}
+
+#emailPopup > #main > #emailTextBox {
+    width: 100%;
+    font-size:large;
+}

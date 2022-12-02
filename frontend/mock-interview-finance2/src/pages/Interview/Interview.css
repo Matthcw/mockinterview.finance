@@ -1,0 +1,22 @@
+#interview > #right > #videos {
+    width: 600px;
+    height: 400px;
+    background-color: black;
+}
+
+#interview {
+    display: flex;
+    justify-content: center;
+}
+
+#interviewPage > div > #title {
+    display: flex;
+    justify-content: center;
+}
+
+#interview > #left {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    background-color: rgb(237, 237, 237);
+}
