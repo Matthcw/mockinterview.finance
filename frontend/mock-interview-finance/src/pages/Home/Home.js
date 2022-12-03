@@ -3,8 +3,13 @@ import '../../App.css';
 import Popup from 'reactjs-popup';
 import ShedulePopup from '../../components/SchedulePopup/SchedulePopup.js'
 import EmailPopup from '../../components/EmailPopup/EmailPopup';
-
-function Home() {
+import { useNavigate } from "react-router-dom";
+function Home(props) {
+  const navigate = useNavigate()
+  if (props.isLoggedIn) {
+    navigate("/interviews")
+  }
+  console.log(props)
   return (
     <div className="App">
       <header className="App-header">
@@ -16,7 +21,10 @@ function Home() {
         <div className='btn'>
           Interview For Free
         </div>} modal nested>
-          { close => (<ShedulePopup close={close} />)}
+          { close => (<ShedulePopup 
+          setIsLoggedInState={props.setIsLoggedInState} 
+          setUserIdState={props.setUserIdState} 
+          close={close} />)}
     
         </Popup>
 
@@ -25,7 +33,10 @@ function Home() {
         <div className='btn'>
         View Your Interviews
       </div>} modal nested>
-          { close => (<EmailPopup close={close} />)}
+          { close => (<EmailPopup 
+          setIsLoggedInState={props.setIsLoggedInState} 
+          setUserIdState={props.setUserIdState} 
+          close={close} />)}
     
         </Popup>
 

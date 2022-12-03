@@ -7,10 +7,19 @@ nav{
   padding:10px;
   color: #ffffff;
   font-weight: bold;
+  display: flex;
+  justify-content: space-between;
 }
 
 #close {
   font-weight: bold;
+}
+
+#logoutBtn {
+  cursor: pointer;
+}
+#logoutBtn:hover {
+  color: black;
 }
 
 .btn {

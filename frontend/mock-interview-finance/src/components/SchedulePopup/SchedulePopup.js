@@ -17,6 +17,7 @@ Item 1
 
 Cool Features:
 Highlight the times that have available interview times
+    - using componentDidUpdate Hook
 */
 function SchedulePopup(props){
     const times = ["08:00 AM", "10:00 AM", "12:00 PM", "02:00 PM", "04:00 PM", "06:00 PM", "08:00 PM", "10:00 PM"];
@@ -35,8 +36,8 @@ function SchedulePopup(props){
         {times.map(function(currTime, i) {
             let time = new Date(dayDate.getTime());
             time.setHours(8 + (i * 2));
-            const isDisabled = CURRENT_TIME > time ? 'disabled' : ''
-            return <div className={`time ${isDisabled}`} onClick={(e) => selectTime(e, currTime)} key={i}>{currTime}</div>
+            const isDisabled = CURRENT_TIME > time ? 'disabled' : null
+            return <div className={`time ${isDisabled}`} onClick={(e) => selectTime(e, time, isDisabled)} key={i}>{currTime}</div>
         })}
     </div>
     </div>)
@@ -69,12 +70,9 @@ function SchedulePopup(props){
                     <span id="close" onClick={() => props.close()}>X</span>
                 </div>
                 <div id="main">
-                    <span>
-                    </span>
                     {days.map(function(day, i) {
                         return column(day, i)
                     })}
-    
                 </div>
                 
                 <div id="footer">
@@ -82,7 +80,10 @@ function SchedulePopup(props){
                 <Popup trigger={
                 <span className="btn" onClick={() => props.close()}>Schedule</span>
                 } modal nested closeOnDocumentClick>
-          { close => (<EmailPopup /* send the timestamp */ scheduledTime={time}
+          { close => (<EmailPopup 
+          setIsLoggedInState={props.setIsLoggedInState} 
+          setUserIdState={props.setUserIdState} 
+          scheduledTime={time}
           close={close} closeParent={props.close}/>)}
     
   </Popup>
@@ -97,6 +98,7 @@ function SchedulePopup(props){
         e.target.classList.add("PINK")
         setActiveTime(e.target)
         setTime(currTime)
+        console.log(currTime)
         // alert(currTime)
     }
 }

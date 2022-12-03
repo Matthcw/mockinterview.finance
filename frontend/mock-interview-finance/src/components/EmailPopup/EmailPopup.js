@@ -5,7 +5,7 @@ import { useState } from 'react';
 function EmailPopup(props){
     const [email, setEmail] = useState("");
     const navigate = useNavigate()
-    const label = "Scheduling Interview For: " + props.scheduledTime
+    const label = (<span><b>Scheduling Interview For:</b> {props.scheduledTime && props.scheduledTime.toString()}</span>)
     return (
         <div id="popupOverlay">
             <div id="emailPopup">
@@ -35,18 +35,22 @@ function EmailPopup(props){
     }
 
     async function createUserAndScheduleInterview() {
-
+        // Create User if not already created
+        const id = await createUser()
+        console.log(id)
+        props.setIsLoggedInState(true)
+        props.setUserIdState(id)
         if(props.closeParent) {
-            // Create User if not already created
-            const id = await createUser()
-            console.log(id)
-            // Propose Interview
             await proposeInterview(id, props.scheduledTime)
-            // props.closeParent()
+
+            props.closeParent()
         } else {
             props.close()
         }
-        // navigate("/interviews")
+
+        // Propose Interview
+        console.log("scheduled")
+        navigate("/interviews")
     }
 
     function createUser() {

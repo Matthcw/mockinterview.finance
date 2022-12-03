@@ -101,11 +101,14 @@ const proposeInterview = (request, response) => {
         if (results.rows.length > 0) {
             const interviewId = results.rows[0].id
             // There is an available interview, update it
-            pool.query('UPDATE interviews SET other_user_id = $1 WHERE id = $2', [userId, interviewId], (error, results) => {
+            pool.query('UPDATE interviews SET other_user_id = $1 WHERE id = $2 RETURNING id', [userId, interviewId], (error, results) => {
                 if (error) {
                     throw error
                 }
-                response.status(201).send(`Interview updated with ID: ${interviewId}`)
+                response.status(200).send({
+                    message: "Interview updated",
+                    interviewId: results.rows[0].id
+                }) 
             })
         } else {
             const GENERATED_GUID = uuidv4();
@@ -114,7 +117,11 @@ const proposeInterview = (request, response) => {
                 if (error) {
                     throw error
                 }
-                response.status(201).send(`Interview added with ID: ${results.rows[0].id}`)
+                console.log(results.rows)
+                response.status(201).send({
+                    message: "Interview added",
+                    interviewId: results.rows[0].id
+                })
             })
         }
     })

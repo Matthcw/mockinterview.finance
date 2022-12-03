@@ -13,11 +13,11 @@ const pool = new Pool({
 
 beforeAll(async () => {
   console.log('create tables')
-  // await pool.query(`
-  // DROP Table interviews;
-  // DROP Table users;
-  // DROP Table feedback;
-  // `);
+  await pool.query(`
+  DROP Table IF EXISTS interviews;
+  DROP Table IF EXISTS users;
+  DROP Table IF EXISTS feedback;
+  `);
 
   await pool.query(`
     CREATE TABLE IF NOT EXISTS interviews (
@@ -77,6 +77,26 @@ describe('GET /interviews', () => {
           );
         });
     });
+
+    it('returns an array of interviews with feedback', async () => {
+      console.log("the test")
+      return request(app)
+        .get('/interviews?userId=b2d29867-3d0b-d497-9191-18a9d8ee7830')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                id: expect.any(String),
+                scheduled_time: expect.any(String),
+                user_id: expect.any(String),
+                feedback: expect.any(String)
+              }),
+            ])
+          );
+        });
+    });
   });
 
   describe('POST /interview', () => {
@@ -90,7 +110,12 @@ describe('GET /interviews', () => {
         .send({"userId": "a2d29867-3d0b-d497-9191-18a9d8ee7830", "time": "2020-08-08T13:00:00"})
         .expect(201)
         .then((response) => {
-          expect(response.text).toContain("Interview added with ID:")
+          expect(response.body).toEqual(
+            expect.objectContaining({
+              interviewId: expect.any(String),
+              message: expect.any(String)
+            })
+          )
         });
     });
 
@@ -102,9 +127,14 @@ describe('GET /interviews', () => {
       return request(app)
         .post('/interview')
         .send({"userId": "a2d29867-3d0b-d497-9191-18a9d8ee7830", "time": "2020-08-08T13:00:00"})
-        .expect(201)
+        .expect(200)
         .then((response) => {
-          expect(response.text).toContain("Interview updated with ID:")
+          expect(response.body).toEqual(
+            expect.objectContaining({
+              interviewId: expect.any(String),
+              message: expect.any(String)
+            })
+          )
         });
     });
   });
